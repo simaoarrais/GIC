@@ -1,0 +1,3 @@
+npm install -> instalar dependências
+
+npm start -> run
