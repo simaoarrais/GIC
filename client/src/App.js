@@ -16,6 +16,9 @@ import Write from "./pages/Write";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 
+// Import CSS
+import "./styles/style.scss"
+
 // Page Layout
 const Layout = () => {
   return(
@@ -38,7 +41,7 @@ const router = createBrowserRouter([
         element: <Home/>
       },
       {
-        path: "/post",
+        path: "/post/:id",
         element: <Single/>
       },
       {
@@ -59,8 +62,10 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div>
-      <RouterProvider router={router}/>
+    <div className="app">
+      <div className="container">
+        <RouterProvider router={router}/>
+      </div>
     </div>
   );
 }

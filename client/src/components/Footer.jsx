@@ -1,9 +1,17 @@
 import React from "react";
 
-const Footer = () => {
-    return (
-        <div>Footer</div>
-    )
-}
+// Import Media
+import Logo from "../images/logo-no-background.png";
 
-export default Footer
+const Footer = () => {
+  return (
+    <footer>
+      <img src={Logo} alt="" />
+      <span>
+        <b>GIC</b>
+      </span>
+    </footer>
+  );
+};
+
+export default Footer;
