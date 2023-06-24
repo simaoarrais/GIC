@@ -1,15 +1,21 @@
 import { MongoClient } from "mongodb";
 
-const connectionString = "";
-export const db = MongoClient(connectionString);
+// Connection URL and database name
+const url = 'mongodb://localhost:27017';
+const dbName = 'GIC';
 
-let conn;
-try {
-  conn = await client.connect();
-} catch(e) {
-  console.error(e);
+const client = new MongoClient(url, { useUnifiedTopology: true });
+
+async function connectToMongoDB() {
+  try {
+    await client.connect();
+    console.log("Connected to MongoDB");
+    const db = client.db(dbName);
+    return db;
+  } catch (error) {
+    console.error("Failed to connect to MongoDB:", error);
+    throw error;
+  }
 }
 
-let db = conn.db("sample_training");
-
-export default db;
+export default connectToMongoDB;
