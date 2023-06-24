@@ -2,13 +2,13 @@ version: '3.8'
 services:
   api:
     build:
-      context: ./api/api
+      context: ./api/
       dockerfile: Dockerfile
     ports:
       - 5000:5000
   client:
     build:
-      context: ./client/client
+      context: ./client/
       dockerfile: Dockerfile
     ports:
       - 3000:3000
