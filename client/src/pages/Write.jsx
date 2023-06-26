@@ -1,16 +1,57 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
+import axios from "axios";
 import "react-quill/dist/quill.snow.css"
 
 const Write = () => {
-    const [value, setValue] = useState('');
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [category, setCategory] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+
+    const stripHtmlTags = (html) => {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || '';
+      };
+
+    const handleCategoryChange = (event) => {
+        setCategory(event.target.value);
+    };
+
+    const handleImageUrlChange = (e) => {
+        setImageUrl(e.target.value);
+      };
+
+    const uploadPost = async () => {
+        const post = {
+            title: title,
+            content: stripHtmlTags(content),
+            category: category,
+            imageUrl: imageUrl,
+            date: new Date(),
+        };
+
+        try {
+            console.log(post);
+            const response = await axios.post("http://localhost:5000/posts/addPost", 
+                post,
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            if (response.ok) {console.log('Post uploaded successfully');} 
+            else {console.error('Error uploading post:', response.data);}
+
+          } catch (error) {
+            console.error('Error uploading post', error);
+          }
+    };
     
     return (
         <div className="add">
             <div className="content">
-                <input type="text" placeholder="Title" />
+                <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
                 <div className="editorContainer">
-                    <ReactQuill className="editor" theme="snow" value={value} onChange={setValue} />
+                    <ReactQuill className="editor" theme="snow" value={content} onChange={setContent} />
                 </div>
             </div>
             <div className="menu">
@@ -22,14 +63,13 @@ const Write = () => {
                     <span>
                         <b>Visibility: </b> Public
                     </span>
-                    <input style={{display: "none"}} type="file" id="file" />
-                    <label htmlFor="file">Upload Image</label>
+                    <input type="text" placeholder="Image URL" value={imageUrl} onChange={handleImageUrlChange} />
                     <div className="buttons">
                         <button>Save as a draft</button>
-                        <button>Update</button>
+                        <button onClick={uploadPost}>Upload</button>
                     </div>
                 </div>
-                <div className="item">
+                <div className="item" onChange={handleCategoryChange}>
                     <h1>Category</h1>
                     <div className="cat">
                         <input type="radio" name="cat" value="art" id="art" />
