@@ -1,5 +1,5 @@
 # Build and push the api container
-cd api
+cd ../api
 docker build . -t simaoarrais/gic_api:latest
 docker tag client:latest simaoarrais/gic_api:latest
 docker push simaoarrais/gic_api:latest

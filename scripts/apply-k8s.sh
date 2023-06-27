@@ -1,4 +1,4 @@
-cd k8s
+cd ../k8s
 kubectl apply -f namespace.yaml
 kubectl apply -f api-svc.yaml
 kubectl apply -f api-deployment.yaml

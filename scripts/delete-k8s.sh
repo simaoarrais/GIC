@@ -1,4 +1,4 @@
-cd k8s
+cd ../k8s
 kubectl delete -f namespace.yaml
 kubectl delete -f api-deployment.yaml
 kubectl delete -f api-svc.yaml
