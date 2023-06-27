@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 
 // Import Components
 import Menu from "../components/Menu";
@@ -23,6 +24,14 @@ const Single = () => {
         .catch((error) => console.error("Error fetching posts:", error));
     }, [id]);
 
+    const handleDelete = async ()=>{
+        try {
+          await axios.delete(`http://localhost:5000/posts/delPost/${id}`);
+        } catch (err) {
+          console.log(err);
+        }
+    }
+
     return (
         <div className="single">
             <div className="content">
@@ -37,7 +46,9 @@ const Single = () => {
                         <Link to={"/write?edit=2"}>
                             <img src={Edit} alt="" />
                         </Link>
-                        <img src={Delete} alt="" />
+                        <Link className="link" to="/">
+                            <img onClick={handleDelete} src={Delete} alt="" />
+                        </Link>
                     </div>
                     <div>
                     <p>Category: {post.category || "None"}</p>
