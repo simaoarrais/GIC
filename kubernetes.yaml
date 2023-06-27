@@ -4,7 +4,7 @@ metadata:
   name: recurso-gic-85132
 
 ---
-
+# ------------------- API - DEPLOYMENT -------------------
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,7 +29,7 @@ spec:
             - containerPort: 5000
 
 ---
-
+# ------------------- API - SERVICE -------------------
 apiVersion: v1
 kind: Service
 metadata:
@@ -47,7 +47,7 @@ spec:
   externalTrafficPolicy: Cluster
   nodePort: 5000
 ---
-
+# ------------------- CLIENT - DEPLOYMENT -------------------
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -72,7 +72,7 @@ spec:
             - containerPort: 3000
 
 ---
-
+# ------------------- CLIENT - SERVICE -------------------
 apiVersion: v1
 kind: Service
 metadata:

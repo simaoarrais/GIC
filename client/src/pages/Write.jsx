@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import axios from "axios";
-import "react-quill/dist/quill.snow.css"
+import {Link} from "react-router-dom";
+import "react-quill/dist/quill.snow.css";
 
 const Write = () => {
     const [title, setTitle] = useState('');
@@ -66,7 +67,9 @@ const Write = () => {
                     <input type="text" placeholder="Image URL" value={imageUrl} onChange={handleImageUrlChange} />
                     <div className="buttons">
                         <button>Save as a draft</button>
-                        <button onClick={uploadPost}>Upload</button>
+                        <Link className="link" to="/">
+                            <button onClick={uploadPost}>Upload</button>
+                        </Link>
                     </div>
                 </div>
                 <div className="item" onChange={handleCategoryChange}>

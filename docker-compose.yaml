@@ -6,9 +6,24 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5000:5000
+    depends_on:
+      - mongodb
   client:
     build:
       context: ./client/
       dockerfile: Dockerfile
     ports:
       - 3000:3000
+    env_file:
+      - ./env/api.env
+    depends_on:
+      - mongodb
+  mongodb:
+    image: 'mongo'
+    volumes:
+      - data:/data/db
+    env_file:
+      - ./env/mongo.env
+
+volumes:
+  data: 

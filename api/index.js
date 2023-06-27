@@ -10,5 +10,5 @@ app.use(cors());
 app.use("/posts", postRouts);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`API listening on port ${port}`)
 });
