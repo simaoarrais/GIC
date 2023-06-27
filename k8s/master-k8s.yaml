@@ -1,8 +1,24 @@
+# ---------------------- NAMESPACE  ----------------------
 apiVersion: v1
 kind: Namespace
 metadata:
   name: recurso-gic-85132
-
+---
+# ------------------- API - SERVICE -------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+  labels:
+    app: api
+spec:
+  selector:
+    app: api
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: LoadBalancer
 ---
 # ------------------- API - DEPLOYMENT -------------------
 apiVersion: apps/v1
@@ -23,54 +39,9 @@ spec:
     spec:
       containers:
         - name: api
-          image: simaoarrais/gic_api
-          imagePullPolicy: Always
+          image: simaoarrais/gic_api:latest
           ports:
             - containerPort: 5000
-
----
-# ------------------- API - SERVICE -------------------
-apiVersion: v1
-kind: Service
-metadata:
-  name: api-service
-  labels:
-    app: api
-spec:
-  selector:
-    app: api
-  ports:
-    - protocol: TCP
-      port: 5000
-      targetPort: 5000
-  type: NodePort
-  externalTrafficPolicy: Cluster
-  nodePort: 5000
----
-# ------------------- CLIENT - DEPLOYMENT -------------------
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: client-deployment
-  labels:
-    app: client
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: client
-  template:
-    metadata:
-      labels:
-        app: client
-    spec:
-      containers:
-        - name: client
-          image: simaoarrais/gic_client
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 3000
-
 ---
 # ------------------- CLIENT - SERVICE -------------------
 apiVersion: v1
@@ -86,6 +57,28 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: 3000
-  type: NodePort
-  externalTrafficPolicy: Cluster
-  nodePort: 3000
+  type: LoadBalancer
+---
+# ------------------- CLIENT - DEPLOYMENT -------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+  namespace: recurso-gic-85132
+  labels:
+    app: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: client
+          image: simaoarrais/gic_client:latest
+          ports:
+            - containerPort: 3000
