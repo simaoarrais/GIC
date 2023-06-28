@@ -9,7 +9,7 @@ const Menu = () => {
 
   useEffect(() => {
       // Fetch the posts from the API
-      fetch("http://localhost:5000/posts")
+      fetch(`http://${process.env.REACT_APP_API_ADDRESS}/posts`)
       .then((response) => response.json())
       .then((data) => setPosts(data))
       .catch((error) => console.error("Error fetching posts:", error));

@@ -34,7 +34,7 @@ const Write = () => {
 
         try {
             console.log(post);
-            const response = await axios.post("http://localhost:5000/posts/addPost", 
+            const response = await axios.post(`http://${process.env.REACT_APP_API_ADDRESS}/posts/addPost`, 
                 post,
                 { headers: { 'Content-Type': 'application/json' } }
             );
@@ -45,6 +45,15 @@ const Write = () => {
           } catch (error) {
             console.error('Error uploading post', error);
           }
+    };
+
+
+    const handleTest = async ()=>{
+        try {
+          await axios.get(`http://${process.env.REACT_APP_API_ADDRESS}posts/test`);
+        } catch (err) {
+          console.log(err);
+        }
     };
     
     return (
@@ -66,7 +75,7 @@ const Write = () => {
                     </span>
                     <input type="text" placeholder="Image URL" value={imageUrl} onChange={handleImageUrlChange} />
                     <div className="buttons">
-                        <button>Save as a draft</button>
+                        <button onClick={handleTest}>Save as a draft</button>
                         <Link className="link" to="/">
                             <button onClick={uploadPost}>Upload</button>
                         </Link>

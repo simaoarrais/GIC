@@ -3,7 +3,8 @@ let db;
 
 try {
   // Connection URL and database name
-  const url = 'mongodb://mongodb:27017';
+  console.log(process.env.MONGODB_ADDRESS);
+  const url = `mongodb://${process.env.MONGODB_ADDRESS}`;
   const dbName = process.env.MONGO_DATABASE || 'GIC';
   const client = new MongoClient(url);
   // Connect to MongoDB

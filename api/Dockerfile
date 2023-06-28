@@ -16,10 +16,5 @@ COPY . .
 # Specify port number
 EXPOSE 5000
 
-# Secrets
-ENV MONGODB_USERNAME=root
-ENV MONGODB_PASSWORD=secret
-ENV MONGO_DATABASE=GIC
-
 # Run the app
 CMD ["npm", "start"]

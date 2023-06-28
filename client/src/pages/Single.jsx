@@ -18,7 +18,7 @@ const Single = () => {
 
     useEffect(() => {
         // Fetch the posts from the API
-        fetch(`http://localhost:5000/posts/${id}`)
+        fetch(`http://${process.env.REACT_APP_API_ADDRESS}/posts/${id}`)
         .then((response) => response.json())
         .then((data) => setPost(data))
         .catch((error) => console.error("Error fetching posts:", error));
@@ -26,7 +26,7 @@ const Single = () => {
 
     const handleDelete = async ()=>{
         try {
-          await axios.delete(`http://localhost:5000/posts/delPost/${id}`);
+          await axios.delete(`http://${process.env.REACT_APP_API_ADDRESS}/posts/delPost/${id}`);
         } catch (err) {
           console.log(err);
         }
