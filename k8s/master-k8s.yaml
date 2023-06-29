@@ -152,13 +152,6 @@ spec:
           env:
             - name: REACT_APP_API_ADDRESS
               value: "api-service.recurso-gic-85132"
-          resources:
-            requests:
-              memory: "1284Mi"
-              cpu: "500m"
-            limits:
-              memory: "256Mi"
-              cpu: "500m"
           ports:
             - containerPort: 3000
 
