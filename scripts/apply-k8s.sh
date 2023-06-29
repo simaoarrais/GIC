@@ -15,4 +15,7 @@ kubectl apply -f api-deployment.yaml
 kubectl apply -f client-svc.yaml
 kubectl apply -f client-deployment.yaml
 
-
+# Autoscalers
+kubectl apply -f mongodb-autoscaling.yaml
+kubectl apply -f api-autoscaling.yaml
+kubectl apply -f client-autoscaling.yaml

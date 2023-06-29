@@ -13,6 +13,7 @@ metadata:
   labels:
     app: mongodb
 spec:
+  type: ClusterIP
   clusterIP: None
   selector:
     app: mongodb
@@ -99,6 +100,13 @@ spec:
           env:
             - name: MONGODB_ADDRESS
               value: "mongodb-service.recurso-gic-85132"
+          resources:
+            requests:
+              memory: "96Mi"
+              cpu: "400m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           ports:
             - containerPort: 5000
 
@@ -144,24 +152,85 @@ spec:
           env:
             - name: REACT_APP_API_ADDRESS
               value: "api-service.recurso-gic-85132"
+          resources:
+            requests:
+              memory: "1284Mi"
+              cpu: "500m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
           ports:
             - containerPort: 3000
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: api-ingress
-#   annotations:
-#     nginx.ingress.kubernetes.io/rewrite-target: /
-# spec:
-#   rules:
-#     - host: api-service  # Replace with your desired domain or hostname
-#       http:
-#         paths:
-#           - path: /api
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: api-service
-#                 port:
-#                   number: 5000
+
+---
+# --------------- MONGODB - AUTOSCALING --------------
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mongodb-autoscaler
+  namespace: recurso-gic-85132
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: mongodb-statefulset
+  minReplicas: 1
+  maxReplicas: 6
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 65
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+---
+# ----------------- API - AUTOSCALING ----------------
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-autoscaler
+  namespace: recurso-gic-85132
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api-deployment
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 400
+---
+# --------------- CLIENT - AUTOSCALING --------------
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: client-autoscaling
+  namespace: recurso-gic-85132
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: client-deployment
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 65
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
