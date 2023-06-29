@@ -34,6 +34,7 @@ const Home = () => {
 
     const [posts, setPosts] = useState([]);
     const API_URL = process.env.REACT_APP_API_ADDRESS || "localhost:5000";
+    console.log(API_URL);
 
     useEffect(() => {
         // Fetch the posts from the API
