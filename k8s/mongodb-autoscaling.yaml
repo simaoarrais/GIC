@@ -1,4 +1,4 @@
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: mongodb-autoscaler
@@ -8,7 +8,7 @@ spec:
     apiVersion: apps/v1
     kind: StatefulSet
     name: mongodb-statefulset
-  minReplicas: 3
+  minReplicas: 1
   maxReplicas: 6
   metrics:
   - type: Resource
