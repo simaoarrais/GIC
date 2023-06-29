@@ -26,6 +26,5 @@ services:
       - data:/data/db
     env_file:
       - ./env/mongo.env
-
 volumes:
   data:

@@ -6,10 +6,11 @@ const Default = "https://feelforhair.co.uk/wp-content/uploads/2017/12/default-po
 
 const Menu = () => {
   const [posts, setPosts] = useState([]);
+  const API_URL = process.env.REACT_APP_API_ADDRESS || "localhost:5000";
 
   useEffect(() => {
       // Fetch the posts from the API
-      fetch(`http://${process.env.REACT_APP_API_ADDRESS}/posts`)
+      fetch(`http://${API_URL}/posts`)
       .then((response) => response.json())
       .then((data) => setPosts(data))
       .catch((error) => console.error("Error fetching posts:", error));

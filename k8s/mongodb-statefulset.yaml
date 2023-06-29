@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongodb-statefulset
+  namespace: recurso-gic-85132
 spec:
   serviceName: mongodb-svc
   replicas: 1

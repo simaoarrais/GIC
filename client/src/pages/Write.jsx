@@ -9,6 +9,7 @@ const Write = () => {
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
     const [imageUrl, setImageUrl] = useState('');
+    const API_URL = process.env.REACT_APP_API_ADDRESS || "localhost:5000";
 
     const stripHtmlTags = (html) => {
         const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -34,7 +35,7 @@ const Write = () => {
 
         try {
             console.log(post);
-            const response = await axios.post(`http://${process.env.REACT_APP_API_ADDRESS}/posts/addPost`, 
+            const response = await axios.post(`http://${API_URL}/posts/addPost`, 
                 post,
                 { headers: { 'Content-Type': 'application/json' } }
             );
@@ -50,7 +51,7 @@ const Write = () => {
 
     const handleTest = async ()=>{
         try {
-          await axios.get(`http://${process.env.REACT_APP_API_ADDRESS}posts/test`);
+          await axios.get(`http://${API_URL}posts/test`);
         } catch (err) {
           console.log(err);
         }

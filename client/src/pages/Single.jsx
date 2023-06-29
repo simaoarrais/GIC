@@ -15,10 +15,11 @@ const Default = "https://feelforhair.co.uk/wp-content/uploads/2017/12/default-po
 const Single = () => {
     const { id } = useParams();
     const [post, setPost] = useState({});
+    const API_URL = process.env.REACT_APP_API_ADDRESS || "localhost:5000";
 
     useEffect(() => {
         // Fetch the posts from the API
-        fetch(`http://${process.env.REACT_APP_API_ADDRESS}/posts/${id}`)
+        fetch(`http://${API_URL}/posts/${id}`)
         .then((response) => response.json())
         .then((data) => setPost(data))
         .catch((error) => console.error("Error fetching posts:", error));
@@ -26,7 +27,7 @@ const Single = () => {
 
     const handleDelete = async ()=>{
         try {
-          await axios.delete(`http://${process.env.REACT_APP_API_ADDRESS}/posts/delPost/${id}`);
+          await axios.get(`http://${API_URL}/posts/delPost/${id}`);
         } catch (err) {
           console.log(err);
         }
