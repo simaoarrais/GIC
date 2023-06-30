@@ -27,6 +27,7 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: pvc
+      namespace: gic-group-6
     spec:
       accessModes: 
         - ReadWriteOnce

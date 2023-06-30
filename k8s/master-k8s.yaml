@@ -99,7 +99,7 @@ spec:
           image: simaoarrais/gic_api:latest
           env:
             - name: MONGODB_ADDRESS
-              value: "mongodb-service.recurso-gic-85132"
+              value: "mongodb-service"
           resources:
             requests:
               memory: "96Mi"
@@ -109,7 +109,6 @@ spec:
               cpu: "500m"
           ports:
             - containerPort: 5000
-
 ---
 # ------------------ CLIENT - SERVICE ------------------
 apiVersion: v1
@@ -151,13 +150,12 @@ spec:
           image: simaoarrais/gic_client:latest
           env:
             - name: REACT_APP_API_ADDRESS
-              value: "api-service.recurso-gic-85132"
+              value: "api.fblog.k3s"
           ports:
             - containerPort: 3000
-
 ---
 # --------------- MONGODB - AUTOSCALING --------------
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: mongodb-autoscaler
@@ -168,7 +166,7 @@ spec:
     kind: StatefulSet
     name: mongodb-statefulset
   minReplicas: 1
-  maxReplicas: 6
+  maxReplicas: 4
   metrics:
   - type: Resource
     resource:
@@ -181,7 +179,7 @@ spec:
       stabilizationWindowSeconds: 300
 ---
 # ----------------- API - AUTOSCALING ----------------
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: api-autoscaler
@@ -192,7 +190,7 @@ spec:
     kind: Deployment
     name: api-deployment
   minReplicas: 1
-  maxReplicas: 3
+  maxReplicas: 4
   metrics:
   - type: Resource
     resource:
@@ -205,7 +203,7 @@ spec:
       stabilizationWindowSeconds: 400
 ---
 # --------------- CLIENT - AUTOSCALING --------------
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: client-autoscaling
@@ -216,7 +214,7 @@ spec:
     kind: Deployment
     name: client-deployment
   minReplicas: 1
-  maxReplicas: 3
+  maxReplicas: 4
   metrics:
   - type: Resource
     resource:
@@ -227,3 +225,37 @@ spec:
   behavior:
     scaleDown:
       stabilizationWindowSeconds: 300
+---
+# ---------------- TRAEFIK - INGRESS ---------------
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gic-ingress
+  namespace: recurso-gic-85132
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/frontend-entry-points: http,https
+    traefik.ingress.kubernetes.io/redirect-entry-point: https
+    traefik.ingress.kubernetes.io/redirect-permanent: "true"
+spec:
+  rules:
+    - host: www.fblog.k3s
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: client-service
+                port:
+                  number: 3000
+    - host: api.fblog.k3s
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-service
+                port:
+                  number: 5000

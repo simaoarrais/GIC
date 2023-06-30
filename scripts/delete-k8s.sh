@@ -14,3 +14,6 @@ kubectl delete -f client-deployment.yaml
 # Mongodb
 kubectl delete -f mongodb-svc.yaml
 kubectl delete -f mongodb-statefulset.yaml
+
+# Ingress
+kubectl delete -f ingress.yaml

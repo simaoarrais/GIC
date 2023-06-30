@@ -19,3 +19,6 @@ kubectl apply -f client-deployment.yaml
 kubectl apply -f mongodb-autoscaling.yaml
 kubectl apply -f api-autoscaling.yaml
 kubectl apply -f client-autoscaling.yaml
+
+# Ingress
+kubectl apply -f ingress.yaml

@@ -20,7 +20,7 @@ spec:
           image: simaoarrais/gic_api:latest
           env:
             - name: MONGODB_ADDRESS
-              value: "mongodb-service.recurso-gic-85132"
+              value: "mongodb-service"
           resources:
             requests:
               memory: "96Mi"

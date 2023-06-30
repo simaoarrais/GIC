@@ -9,7 +9,7 @@ spec:
     kind: StatefulSet
     name: mongodb-statefulset
   minReplicas: 1
-  maxReplicas: 6
+  maxReplicas: 4
   metrics:
   - type: Resource
     resource:

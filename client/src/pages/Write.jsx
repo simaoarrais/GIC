@@ -51,7 +51,7 @@ const Write = () => {
 
     const handleTest = async ()=>{
         try {
-          await axios.get(`http://${API_URL}posts/test`);
+          await axios.get(`http://${API_URL}/posts/test`);
         } catch (err) {
           console.log(err);
         }

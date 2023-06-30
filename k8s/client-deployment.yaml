@@ -20,13 +20,6 @@ spec:
           image: simaoarrais/gic_client:latest
           env:
             - name: REACT_APP_API_ADDRESS
-              value: "api-service.recurso-gic-85132"
-          resources:
-            requests:
-              memory: "1284Mi"
-              cpu: "500m"
-            limits:
-              memory: "256Mi"
-              cpu: "500m"
+              value: "api.fblog.k3s"
           ports:
             - containerPort: 3000
