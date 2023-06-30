@@ -43,21 +43,29 @@ spec:
       containers:
       - name: mongodb
         image: mongo:latest
+        resources:
+            requests:
+              memory: "96Mi"
+              cpu: "125m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
         ports:
         - containerPort: 27017
           name: web
-        volumeMounts:
-          - name: pvc
-            mountPath: /data/db
-  volumeClaimTemplates:
-  - metadata:
-      name: pvc
-    spec:
-      accessModes: 
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
+  #       volumeMounts:
+  #         - name: pvc
+  #           mountPath: /data/db
+  # volumeClaimTemplates:
+  # - metadata:
+  #     name: pvc
+  #     namespace: gic-group-6
+  #   spec:
+  #     accessModes: 
+  #       - ReadWriteOnce
+  #     resources:
+  #       requests:
+  #         storage: 1Gi
 ---
 # ------------------- API - SERVICE -------------------
 apiVersion: v1
@@ -103,7 +111,7 @@ spec:
           resources:
             requests:
               memory: "96Mi"
-              cpu: "400m"
+              cpu: "250m"
             limits:
               memory: "128Mi"
               cpu: "500m"
@@ -151,6 +159,13 @@ spec:
           env:
             - name: REACT_APP_API_ADDRESS
               value: "api.fblog.k3s"
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
+            limits:
+              memory: "750Mi"
+              cpu: "1000m"
           ports:
             - containerPort: 3000
 ---

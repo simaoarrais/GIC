@@ -18,19 +18,26 @@ spec:
       containers:
       - name: mongodb
         image: mongo:latest
+        resources:
+            requests:
+              memory: "96Mi"
+              cpu: "125m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
         ports:
         - containerPort: 27017
           name: web
-        volumeMounts:
-          - name: pvc
-            mountPath: /data/db
-  volumeClaimTemplates:
-  - metadata:
-      name: pvc
-      namespace: gic-group-6
-    spec:
-      accessModes: 
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
+  #       volumeMounts:
+  #         - name: pvc
+  #           mountPath: /data/db
+  # volumeClaimTemplates:
+  # - metadata:
+  #     name: pvc
+  #     namespace: gic-group-6
+  #   spec:
+  #     accessModes: 
+  #       - ReadWriteOnce
+  #     resources:
+  #       requests:
+  #         storage: 1Gi
